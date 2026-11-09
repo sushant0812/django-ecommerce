@@ -1,0 +1,44 @@
+html
+<!-- store/templates/store/cart_detail.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h1>Your Shopping Cart</h1>
+    <a href="{% url 'product_list' %}">← Continue Shopping</a>
+    <hr>
+
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>₹{{ item.price }}</td>
+                    <td>₹{{ item.total_price }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">Your cart is empty.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Grand Total: ₹{{ cart.get_total_price }}</h3>
+    
+    {% if cart.get_total_price > 0 %}
+        <a href="{% url 'order_create' %}"><button style="padding: 10px 20px;">Proceed to Checkout</button></a>
+    {% endif %}
+</body>
+</html>

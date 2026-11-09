@@ -1,0 +1,33 @@
+<!-- store/templates/store/order_create.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+    <h1>Checkout Details</h1>
+    <a href="{% url 'cart_detail' %}">← Back to Cart</a>
+    <hr>
+
+    <div style="display: flex; gap: 50px;">
+        <div>
+            <h2>Shipping & Order Info</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" style="padding: 10px 20px;">Place Order</button>
+            </form>
+        </div>
+
+        <div>
+            <h2>Your Order Summary</h2>
+            <ul>
+                {% for item in cart %}
+                    <li>{{ item.quantity }}x {{ item.product.name }} - ₹{{ item.total_price }}</li>
+                {% endfor %}
+            </ul>
+            <h3>Total Amount Due: ₹{{ cart.get_total_price }}</h3>
+        </div>
+    </div>
+</body>
+</html>
