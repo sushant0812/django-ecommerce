@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmed - #{{ order.id }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 650px; margin: 40px auto; padding: 0 20px; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 24px; background: #f9f9f9; }
+        .success { color: #2e7d32; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: #fff; }
+        th, td { padding: 10px; border-bottom: 1px solid #eee; text-align: left; }
+        .btn { display: inline-block; padding: 10px 18px; background: #1976d2; color: #fff; text-decoration: none; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1 class="success">Thank you for your order!</h1>
+        <p>Your order has been successfully placed. Your order number is <strong>#{{ order.id }}</strong>.</p>
+
+        <h3>Order Summary</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>₹{{ item.price }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if order.get_total_cost %}
+            <p><strong>Total Paid:</strong> ₹{{ order.get_total_cost }}</p>
+        {% endif %}
+
+        <a href="{% url 'product_list' %}" class="btn">Continue Shopping</a>
+    </div>
+</body>
+</html>
